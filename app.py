@@ -1,14 +1,19 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, flash
+import secrets
 from pymongo import MongoClient
 import hashlib
 from datetime import datetime, timedelta
 import jwt
 
 app = Flask(__name__)
+<<<<<<< HEAD
+app.config['SECRET_KEY'] = secrets.token_hex(16)
+=======
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 
 SECRET_KEY = 'COFFEE'
+>>>>>>> 565446d720aea09042277fa613e0ea33ab674b76
 
 client = MongoClient('3.34.130.144', 27017, username="test", password="test")
 db = client.today_coffee
@@ -20,7 +25,8 @@ db = client.today_coffee
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    coffees = list(db.daycoffee.find({}, {'_id': False}))
+    return render_template('index.html',coffees=coffees)
 
 
 @app.route('/login')
@@ -33,16 +39,33 @@ def register():
     return render_template('register.html')
 
 
-@app.route('/detail')
-def detail():
-    return render_template('detail.html')
+# 선택한 이미지를 호출
+@app.route('/detail/<number>', methods=['GET'])
+def detail_image(number):
+    number_received = int(number)
+    detail_coffee = list(db.daycoffee.find({"product_id": number_received}, {'_id': False}))
+    name = detail_coffee[0]["name"]
+    img_url = detail_coffee[0]["img_url"]
+    like = detail_coffee[0]["like"]
+    dislike = detail_coffee[0]["dislike"]
+    total_like = detail_coffee[0]["total_like"]
+
+    return render_template('detail.html', name=name, img_url=img_url, like=like, dislike=dislike, total_like=total_like)
+
+
+@app.route('/detail/<number>', methods=['POST'])
+def comment_write():
+    comment_received = request.form["comment_given"]
+    doc = {
+        "comment": comment_received
+    }
+    db.comment.insert_one(doc)
 
 
 # 커피 목록 가져오기
 @app.route('/api/list', methods=['GET'])
 def show_coffee():
     coffee = list(db.daycoffee.find({}, {'_id': False}).sort("total_like", -1))
-    print(coffee)
     return jsonify({'coffee': coffee})
 
 
