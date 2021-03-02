@@ -20,6 +20,7 @@
     <!--    font-->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Gaegu&family=Hi+Melody&display=swap" rel="stylesheet">
+    <script src="../static/base.js"></script>
 
     <style>
         * { /*border: 1px solid black;*/
@@ -105,8 +106,15 @@
             float: left;
             margin-left: 20px;
         }
+
         .white {
             color: white;
+        }
+
+        .container {
+            display: block;
+            width: 900px;
+            margin: auto;
         }
 
     </style>
@@ -114,93 +122,53 @@
 
     <!--</head>-->
 <body>
-<div class="wrap">
-    <section class="hero is-bold is-medium">
-        <div class="buttons are-midium login">
-            <button class="button is-outlined is-light" onclick="window.location.href='/login'">로그인</button>
-        </div>
-        <div class="hero-body">
-            <div class="container">
-                <h1 class="title white" onclick="window.location.href='/'" style="cursor:pointer">
-                    오늘의 커피
-                </h1>
-                <h2 class="subtitle white">
-                    맛있는 커피를 추천해드립니다.
-                </h2>
-            </div>
-        </div>
-    </section>
-
-    <div class="container" style="margin-top: 30px; padding: 10px">
-        <h2 class="subtitle">1위</h2>
-        <img class=""
-             src="https://image.istarbucks.co.kr/upload/store/skuimg/2017/03/[9200000000479]_20170328134443491.jpg">
-        <div>
-            <h1 class="title">아메리카노</h1>
-        </div>
-
-        <div class="like_dislike">
-            <div class="field has-addons">
-                <p class="control">
-                    <button class="button">
-
-                        <span>좋아요 👍</span>
-                    </button>
-                </p>
-                <p class="control">
-                    <button class="button">
-                        <span>13</span>
-                    </button>
-                </p>
-            </div>
-            <div class="field has-addons">
-                <p class="control">
-                    <button class="button">
-
-                        <span>싫어요 👎</span>
-                    </button>
-                </p>
-                <p class="control">
-                    <button class="button">
-
-                        <span>1</span>
-                    </button>
-                </p>
-            </div>
-        </div>
-
-        <table style="margin-top: 30px;" class="table is-narrow">
-            <thead>
-            <tr>
-                <th style="min-width: 100px;"><b style="font-size: 20px">댓글</b></th>
-                <th style="width: 100%;"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>홍길동</td>
-                <td>아메리카노 맛있어요.</td>
-            </tr>
-            <tr>
-                <td>이순신</td>
-                <td>아메리카노 정말 맛있어요.</td>
-            </tr>
-            </tbody>
-        </table>
-
-        <div class="container" style="margin-top: 30px;">
-            <input class="input" type="text" placeholder="댓글을 입력하세요.">
-
-            <div class="buttons">
-                <button class="button is-primary is-light" style="margin-top: 20px;">작성</button>
-            </div>
-        </div>
-
-
+<section class="hero is-bold is-medium">
+    <div class="buttons are-midium login">
+        <button class="button is-outlined is-light" onclick="window.location.href='/login'">로그인</button>
     </div>
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title white" onclick="window.location.href='/'" style="cursor:pointer">
+                오늘의 커피
+            </h1>
+            <h2 class="subtitle white">
+                맛있는 커피를 추천해드립니다.
+            </h2>
+        </div>
+    </div>
+</section>
 
-
+<div class="columns is-mobile is-multiline is-centered">
+    <div class="col-sm-6">
+        <div class="card">
+            <img src="{{img_url}}" class="card-img-top">
+            <div class="card-body">
+                <p class="card-text" id="coffee_name">{{name}} ({{total_like}})</p>
+            </div>
+            <div class="card-body">
+                <a href="#" onclick="likeCoffee('{{name}}')" class="card-link"> 좋아요! {{like}}
+                    <span class="icon">
+                                                    <i class="fas fa-thumbs-up"></i>
+                                                </span>
+                </a>
+                <a href="#" onclick="DislikeCoffee('{{name}}')" class="card-link"> 싫어요! {{dislike}}
+                    <span class="icon">
+                        <i class="fas fa-thumbs-down"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
+<div class="container">
+    <form action="" method="post">
+        <div class="form-group">
+            <textarea></textarea>
+            <button type="submit" onclick="WriteComment()" class="btn btn-info">Submit</button>
+        </div>
+    </form>
+</div>
+
 </body>
 </html>
 
