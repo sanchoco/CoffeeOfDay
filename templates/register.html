@@ -124,6 +124,10 @@
                 alert("아이디 중복확인을 해주세요.")
                 return;
             }
+            if ($("#help-nick").hasClass("is-danger")) {
+                alert("닉네임 중복확인을 해주세요.")
+                return;
+            }
 
             if (password == "") {
                 $("#help-password").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")

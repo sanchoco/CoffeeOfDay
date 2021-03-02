@@ -112,7 +112,7 @@ def check_dup():
 def check_nick():
     nickname_receive = request.form['nickname_give']
     nickexists = bool(db.users.find_one({"nickname": nickname_receive}))
-    return jsonify({'result': 'success', 'exists': nickexists})
+    return jsonify({'result': 'success','nickexists': nickexists})
 
 
 if __name__ == '__main__':
