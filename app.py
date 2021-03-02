@@ -6,14 +6,13 @@ from datetime import datetime, timedelta
 import jwt
 
 app = Flask(__name__)
-<<<<<<< HEAD
+# <<<<<<< HEAD
 app.config['SECRET_KEY'] = secrets.token_hex(16)
-=======
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 
 SECRET_KEY = 'COFFEE'
->>>>>>> 565446d720aea09042277fa613e0ea33ab674b76
+# >>>>>>> 565446d720aea09042277fa613e0ea33ab674b76
 
 client = MongoClient('3.34.130.144', 27017, username="test", password="test")
 db = client.today_coffee
