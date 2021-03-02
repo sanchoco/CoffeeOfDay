@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <title>Login | 오늘의 커피</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="오늘의 커피"/>
+    <meta property="og:description" content="이용자들이 추천한 커피를 보여드립니다!"/>
+
+    <!--    font-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu&family=Hi+Melody&display=swap" rel="stylesheet">
+
+    <!--    style-->
+    <style>
+        * { /*border: 1px solid black;*/
+        }
+
+        .wrap {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .hero {
+            background-color: darkgray;
+        }
+
+
+        .section {
+            width: 600px;
+            max-width: 100vw;
+            margin: auto;
+        }
+
+        .login {
+            display: block;
+            margin: 20px 5vw 0 auto;
+
+        }
+
+        .hero-body {
+            padding: 1rem 0.5rem 4rem 1.5rem;
+        }
+
+        .hero.is-medium .hero-body {
+            padding: 1rem 1.5rem 5rem 1.5rem;
+        }
+
+        .title {
+            font-size: 3.5rem;
+            font-family: 'Hi Melody', cursive;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            font-family: 'Gaegu', cursive;
+        }
+
+        .card {
+            margin: 30px;
+        }
+
+        .card-content {
+            min-width: 200px;
+            padding: 0.5rem;
+            font-family: 'Hi Melody', cursive;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .card-coffee {
+            font-size: 25px;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        .card-like {
+            font-size: 13px;
+            font-weight: bold;
+            /*text-align: right;*/
+            margin-left: 10px;
+        }
+
+        .tile {
+            background-color: white;
+        }
+
+    </style>
+
+    <!--    js-->
+    <script>
+
+    </script>
+
+    <!--</head>-->
+<body>
+<div class="wrap">
+    <section class="hero is-bold is-medium">
+        <div class="buttons are-midium login">
+            <button class="button is-outlined is-light" onclick="window.location.href='/login'">로그인</button>
+        </div>
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title" onclick="window.location.href='/'" style="cursor:pointer">
+                    오늘의 커피 - <small>회원가입 페이지</small>
+                </h1>
+                <h2 class="subtitle">
+                    맛있는 커피를 추천해드립니다.
+                </h2>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="box" style="max-width: 480px;margin:auto">
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <div class="field has-addons">
+                                <div class="control has-icons-left" style="width:100%">
+                                    <input id="input-nickname" class="input" type="text" placeholder="닉네임">
+                                    <span class="icon is-small is-left"><i cla임ss="fa fa-user"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="field has-addons">
+                                <div class="control has-icons-left" style="width:100%">
+                                    <input id="input-username" class="input" type="text" placeholder="아이디">
+                                    <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
+                                </div>
+                                <div id="btn-check-dup" class="control">
+                                    <button class="button is-sparta" onclick="check_dup()">중복확인</button>
+                                </div>
+
+                            </div>
+                            <p id="help-id" class="help">아이디는 2-10자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능합니다.</p>
+                            <p id="help-id-login" class="help is-danger"></p>
+
+                            <div class="field">
+                                <div class="control has-icons-left">
+                                    <input id="input-password" class="input" type="password" placeholder="비밀번호">
+                                    <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
+                                </div>
+                                <p id="help-password" class="help">영문과 숫자 조합의 8-20자의 비밀번호를 설정해주세요.
+                                    특수문자(!@#$%^&amp;*)도 사용 가능합니다.</p>
+                                <p id="help-password-login" class="help is-danger"></p>
+
+                            </div>
+
+                        </div>
+                        <div id="div-sign-in-or-up" class="has-text-centered">
+
+                            <div id="sign-up-box">
+                                <div class="mb-5">
+                                    <div class="field">
+                                        <div class="control has-icons-left" style="width:100%">
+                                            <input id="input-password2" class="input" type="password"
+                                                   placeholder="비밀번호 재입력">
+                                            <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
+                                        </div>
+                                        <p id="help-password2" class="help is-hidden">비밀번호를 다시 한 번 입력해주세요.</p>
+
+                                    </div>
+                                </div>
+                                <nav class="level is-mobile">
+                                    <button class="level-item button is-sparta" onclick="sign_up()">
+                                        회원가입
+                                    </button>
+                                    <button class="level-item button is-sparta is-outlined" onclick="toggle_sign_up()">
+                                        취소
+                                    </button>
+                                </nav>
+                            </div>
+
+                        </div>
+                </article>
+            </div>
+
+        </div>
+    </section>
+</div>
+</body>
+</html>
+
+

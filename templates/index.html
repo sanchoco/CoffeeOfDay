@@ -1,10 +1,316 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <title>Home | 오늘의 커피</title>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <meta property="og:title" content="오늘의 커피"/>
+    <meta property="og:description" content="이용자들이 추천한 커피를 보여드립니다!"/>
+
+    <!--    font-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu&family=Hi+Melody&display=swap" rel="stylesheet">
+
+    <style>
+        * { /*border: 1px solid black;*/
+        }
+
+        .wrap {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .hero {
+            background-color: darkgray;
+        }
+
+
+        .section {
+            width: 600px;
+            max-width: 100vw;
+            margin: auto;
+        }
+
+        .login {
+            display: block;
+            margin: 20px 5vw 0 auto;
+
+        }
+
+        .hero-body {
+            padding: 1rem 0.5rem 4rem 1.5rem;
+        }
+
+        .hero.is-medium .hero-body {
+            padding: 1rem 1.5rem 5rem 1.5rem;
+        }
+
+        .title {
+            font-size: 3.5rem;
+            font-family: 'Hi Melody', cursive;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            font-family: 'Gaegu', cursive;
+        }
+
+        .card {
+            margin: 30px 30px 5px 30px;
+        }
+
+        .card-content {
+            min-width: 200px;
+            padding: 0.5rem;
+            font-family: 'Hi Melody', cursive;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .card-coffee {
+            font-size: 25px;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        .card-like {
+            font-size: 13px;
+            font-weight: bold;
+            /*text-align: right;*/
+            margin-left: 10px;
+        }
+
+        .tile {
+            background-color: white;
+        }
+
+    </style>
+
+
+    <!--</head>-->
+<body>
+<div class="wrap">
+    <section class="hero is-bold is-medium">
+        <div class="buttons are-midium login">
+            <button class="button is-outlined is-light" onclick="window.location.href='/login'">로그인</button>
+        </div>
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title" onclick="window.location.href='/'" style="cursor:pointer">
+                    오늘의 커피
+                </h1>
+                <h2 class="subtitle">
+                    맛있는 커피를 추천해드립니다.
+                </h2>
+            </div>
+        </div>
+    </section>
+
+    <section class="tile">
+        <div class="columns is-mobile is-multiline is-centered">
+
+
+            <div class="card" style="cursor:pointer" onclick="window.location.href='/detail'">
+                <div class="card-image">
+                    <figure class="image is-1by1">
+                        <img src="https://image.istarbucks.co.kr/upload/store/skuimg/2017/03/[9200000000479]_20170328134443491.jpg"
+                             alt="Placeholder image">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media ">
+                        <div class="media-content">
+                            <p class="card-title">1등</p>
+                            <p class="card-coffee">아메리카노</p>
+                            <p class="card-like">좋아요 12개 싫어요 1개</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card" style="cursor:pointer" onclick="window.location.href='/detail'">
+                <div class="card-image">
+                    <figure class="image is-1by1">
+                        <img src="https://image.istarbucks.co.kr/upload/store/skuimg/2017/03/[9200000000479]_20170328134443491.jpg"
+                             alt="Placeholder image">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media ">
+                        <div class="media-content">
+                            <p class="card-title">1등</p>
+                            <p class="card-coffee">아메리카노</p>
+                            <p class="card-like">좋아요 12개 싫어요 1개</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card" style="cursor:pointer" onclick="window.location.href='/detail'">
+                <div class="card-image">
+                    <figure class="image is-1by1">
+                        <img src="https://image.istarbucks.co.kr/upload/store/skuimg/2017/03/[9200000000479]_20170328134443491.jpg"
+                             alt="Placeholder image">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media ">
+                        <div class="media-content">
+                            <p class="card-title">1등</p>
+                            <p class="card-coffee">아메리카노</p>
+                            <p class="card-like">좋아요 12개 싫어요 1개</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card" style="cursor:pointer" onclick="window.location.href='/detail'">
+                <div class="card-image">
+                    <figure class="image is-1by1">
+                        <img src="https://image.istarbucks.co.kr/upload/store/skuimg/2017/03/[9200000000479]_20170328134443491.jpg"
+                             alt="Placeholder image">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media ">
+                        <div class="media-content">
+                            <p class="card-title">1등</p>
+                            <p class="card-coffee">아메리카노</p>
+                            <p class="card-like">좋아요 12개 싫어요 1개</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card" style="cursor:pointer" onclick="window.location.href='/detail'">
+                <div class="card-image">
+                    <figure class="image is-1by1">
+                        <img src="https://image.istarbucks.co.kr/upload/store/skuimg/2017/03/[9200000000479]_20170328134443491.jpg"
+                             alt="Placeholder image">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media ">
+                        <div class="media-content">
+                            <p class="card-title">1등</p>
+                            <p class="card-coffee">아메리카노</p>
+                            <p class="card-like">좋아요 12개 싫어요 1개</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card" style="cursor:pointer" onclick="window.location.href='/detail'">
+                <div class="card-image">
+                    <figure class="image is-1by1">
+                        <img src="https://image.istarbucks.co.kr/upload/store/skuimg/2017/03/[9200000000479]_20170328134443491.jpg"
+                             alt="Placeholder image">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media ">
+                        <div class="media-content">
+                            <p class="card-title">1등</p>
+                            <p class="card-coffee">아메리카노</p>
+                            <p class="card-like">좋아요 12개 싫어요 1개</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card" style="cursor:pointer" onclick="window.location.href='/detail'">
+                <div class="card-image">
+                    <figure class="image is-1by1">
+                        <img src="https://image.istarbucks.co.kr/upload/store/skuimg/2017/03/[9200000000479]_20170328134443491.jpg"
+                             alt="Placeholder image">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media ">
+                        <div class="media-content">
+                            <p class="card-title">1등</p>
+                            <p class="card-coffee">아메리카노</p>
+                            <p class="card-like">좋아요 12개 싫어요 1개</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card" style="cursor:pointer" onclick="window.location.href='/detail'">
+                <div class="card-image">
+                    <figure class="image is-1by1">
+                        <img src="https://image.istarbucks.co.kr/upload/store/skuimg/2017/03/[9200000000479]_20170328134443491.jpg"
+                             alt="Placeholder image">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media ">
+                        <div class="media-content">
+                            <p class="card-title">1등</p>
+                            <p class="card-coffee">아메리카노</p>
+                            <p class="card-like">좋아요 12개 싫어요 1개</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card" style="cursor:pointer" onclick="window.location.href='/detail'">
+                <div class="card-image">
+                    <figure class="image is-1by1">
+                        <img src="https://image.istarbucks.co.kr/upload/store/skuimg/2017/03/[9200000000479]_20170328134443491.jpg"
+                             alt="Placeholder image">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media ">
+                        <div class="media-content">
+                            <p class="card-title">1등</p>
+                            <p class="card-coffee">아메리카노</p>
+                            <p class="card-like">좋아요 12개 싫어요 1개</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card" style="cursor:pointer" onclick="window.location.href='/detail'">
+                <div class="card-image">
+                    <figure class="image is-1by1">
+                        <img src="https://image.istarbucks.co.kr/upload/store/skuimg/2017/03/[9200000000479]_20170328134443491.jpg"
+                             alt="Placeholder image">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media ">
+                        <div class="media-content">
+                            <p class="card-title">1등</p>
+                            <p class="card-coffee">아메리카노</p>
+                            <p class="card-like">좋아요 12개 싫어요 1개</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+</div>
 </body>
 </html>
+
+

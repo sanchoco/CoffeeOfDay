@@ -1,0 +1,73 @@
+* { /*border: 1px solid black;*/
+        }
+
+        .wrap {
+            max-width: 1024px;
+            margin: auto;
+        }
+
+        .hero {
+            background-color: darkgray;
+        }
+
+
+        .section {
+            width: 600px;
+            max-width: 100vw;
+            margin: auto;
+        }
+
+        .login {
+            display: block;
+            margin: 20px 5vw 0 auto;
+
+        }
+
+        .hero-body {
+            padding: 1rem 0.5rem 4rem 1.5rem;
+        }
+
+        .hero.is-medium .hero-body {
+            padding: 1rem 1.5rem 5rem 1.5rem;
+        }
+
+        .title {
+            font-size: 3.5rem;
+            font-family: 'Hi Melody', cursive;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            font-family: 'Gaegu', cursive;
+        }
+        .card {
+            margin: 30px;
+        }
+        .card-content {
+            min-width: 200px;
+            padding: 0.5rem;
+            font-family: 'Hi Melody', cursive;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .card-coffee {
+            font-size: 25px;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        .card-like {
+            font-size: 13px;
+            font-weight: bold;
+            /*text-align: right;*/
+            margin-left: 10px;
+        }
+
+        .tile {
+            background-color: white;
+        }
