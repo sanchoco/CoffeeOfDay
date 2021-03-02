@@ -27,11 +27,14 @@
 
         .wrap {
             max-width: 800px;
-            margin: auto;
+            margin: auto auto 40px auto;
         }
 
         .hero {
             background-color: darkgray;
+            background-image: url("../static/background.jpg");
+            background-position: top;
+            background-size: revert;
         }
 
 
@@ -102,6 +105,9 @@
             float: left;
             margin-left: 20px;
         }
+        .white {
+            color: white;
+        }
 
     </style>
 
@@ -115,10 +121,10 @@
         </div>
         <div class="hero-body">
             <div class="container">
-                <h1 class="title" onclick="window.location.href='/'" style="cursor:pointer">
+                <h1 class="title white" onclick="window.location.href='/'" style="cursor:pointer">
                     오늘의 커피
                 </h1>
-                <h2 class="subtitle">
+                <h2 class="subtitle white">
                     맛있는 커피를 추천해드립니다.
                 </h2>
             </div>
@@ -143,7 +149,6 @@
                 </p>
                 <p class="control">
                     <button class="button">
-
                         <span>13</span>
                     </button>
                 </p>
