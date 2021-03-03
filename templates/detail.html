@@ -17,10 +17,11 @@
     <meta property="og:title" content="오늘의 커피"/>
     <meta property="og:description" content="이용자들이 추천한 커피를 보여드립니다!"/>
 
+    <script src="/static/base.js"></script>
+
     <!--    font-->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Gaegu&family=Hi+Melody&display=swap" rel="stylesheet">
-    <script src="../static/base.js"></script>
 
     <style>
         * { /*border: 1px solid black;*/
@@ -111,12 +112,6 @@
             color: white;
         }
 
-        .container {
-            display: block;
-            width: 900px;
-            margin: auto;
-        }
-
     </style>
 
 
@@ -161,12 +156,19 @@
     </div>
 </div>
 <div class="container">
-    <form action="" method="post">
-        <div class="form-group">
-            <textarea></textarea>
-            <button type="submit" onclick="WriteComment()" class="btn btn-info">Submit</button>
-        </div>
-    </form>
+    <div class="form-group">
+        {% for comment in comment_taken%}
+        <ul>
+        <textarea readonly>{{comment.comment}}</textarea>
+        </ul>
+        {% endfor %}
+        <form action="" method="post">
+            <textarea id="comment-box"></textarea>
+            <button type="submit" class="btn btn-info"
+                    onclick="WriteComment(document.getElementById('comment-box').value)">Submit
+            </button>
+        </form>
+    </div>
 </div>
 
 </body>

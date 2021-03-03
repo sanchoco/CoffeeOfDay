@@ -1,18 +1,14 @@
-from flask import Flask, render_template, jsonify, request, flash
-import secrets
+from flask import Flask, render_template, jsonify, request, redirect, url_for
 from pymongo import MongoClient
 import hashlib
 from datetime import datetime, timedelta
 import jwt
 
 app = Flask(__name__)
-# <<<<<<< HEAD
-app.config['SECRET_KEY'] = secrets.token_hex(16)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 
 SECRET_KEY = 'COFFEE'
-# >>>>>>> 565446d720aea09042277fa613e0ea33ab674b76
 
 client = MongoClient('3.34.130.144', 27017, username="test", password="test")
 db = client.today_coffee
@@ -24,8 +20,8 @@ db = client.today_coffee
 
 @app.route('/')
 def home():
-    coffees = list(db.daycoffee.find({}, {'_id': False}))
-    return render_template('index.html',coffees=coffees)
+    coffees = list(db.coffee_list.find({}, {'_id': False}))
+    return render_template('index.html', coffees=coffees)
 
 
 @app.route('/login')
@@ -38,42 +34,38 @@ def register():
     return render_template('register.html')
 
 
-# 선택한 이미지를 호출
-@app.route('/detail/<number>', methods=['GET'])
+# 선택한 이미지 출력
+@app.route('/detail/<number>', methods=['GET', 'POST'])
 def detail_image(number):
     number_received = int(number)
-    detail_coffee = list(db.daycoffee.find({"product_id": number_received}, {'_id': False}))
+    detail_coffee = list(db.coffee_list.find({"product_id": number_received}, {'_id': False}))
+    comment_taken = list(db.comment.find({}, {"_id": False}))
     name = detail_coffee[0]["name"]
     img_url = detail_coffee[0]["img_url"]
     like = detail_coffee[0]["like"]
     dislike = detail_coffee[0]["dislike"]
     total_like = detail_coffee[0]["total_like"]
+    return render_template('detail.html', name=name, img_url=img_url, like=like, dislike=dislike, total_like=total_like,
+                           comment_taken=comment_taken)
 
-    return render_template('detail.html', name=name, img_url=img_url, like=like, dislike=dislike, total_like=total_like)
 
-
-@app.route('/detail/<number>', methods=['POST'])
+# 코멘트 받아서 db에 저장하기
+@app.route('/detail/write/', methods=['POST'])
 def comment_write():
-    comment_received = request.form["comment_given"]
+    comment_received = request.form["comment"]
     doc = {
-        "comment": comment_received
+        "comment": comment_received,
     }
     db.comment.insert_one(doc)
-
-
-# 커피 목록 가져오기
-@app.route('/api/list', methods=['GET'])
-def show_coffee():
-    coffee = list(db.daycoffee.find({}, {'_id': False}).sort("total_like", -1))
-    return jsonify({'coffee': coffee})
+    return jsonify({'msg': "작성완료"})
 
 
 # 커피 좋아요
 @app.route('/api/like', methods=['POST'])
 def like_coffee():
     name_receive = request.form['name_give']
-    db.daycoffee.update_one({'name': name_receive}, {'$inc': {'like': +1}})
-    db.daycoffee.update_one({'name': name_receive}, {'$inc': {'total_like': +1}})
+    db.coffee_list.update_one({'name': name_receive}, {'$inc': {'like': +1}})
+    db.coffee_list.update_one({'name': name_receive}, {'$inc': {'total_like': +1}})
     return jsonify({'msg': '좋아요 한표!'})
 
 
@@ -81,8 +73,8 @@ def like_coffee():
 @app.route('/api/dislike', methods=['POST'])
 def dislike_coffee():
     name_receive = request.form["name_give"]
-    db.daycoffee.update_one({"name": name_receive}, {'$inc': {'dislike': +1}})
-    db.daycoffee.update_one({"name": name_receive}, {'$inc': {'total_like': -1}})
+    db.coffee_list.update_one({"name": name_receive}, {'$inc': {'dislike': +1}})
+    db.coffee_list.update_one({"name": name_receive}, {'$inc': {'total_like': -1}})
     return jsonify({'msg': '싫어요 한표!'})
 
 
@@ -134,7 +126,7 @@ def check_dup():
 def check_nick():
     nickname_receive = request.form['nickname_give']
     nickexists = bool(db.users.find_one({"nickname": nickname_receive}))
-    return jsonify({'result': 'success','nickexists': nickexists})
+    return jsonify({'result': 'success', 'exists': nickexists})
 
 
 if __name__ == '__main__':

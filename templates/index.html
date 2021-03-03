@@ -22,15 +22,10 @@
     <!--    font-->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Gaegu&family=Hi+Melody&display=swap" rel="stylesheet">
+
+    <!-- import base.js -->
     <script src="../static/base.js"></script>
 
-
-    <!-- import javascript from base.js -->
-    <script>
-        $(document).ready(function () {
-            showcoffee();
-        });
-    </script>
     <style>
         * { /*border: 1px solid black;*/
         }
@@ -141,28 +136,17 @@
         <div class="columns is-mobile is-multiline is-centered">
             <div class="col-sm-6">
                 <div class="card">
-                    <img src="{{coffee.img_url}}" class="card-img-top">
+                    <a href="/detail/{{coffee.product_id}}"><img src="{{coffee.img_url}}" class="card-img-top"></a>
                     <div class="card-body">
                         <p class="card-text" id="coffee_name">{{coffee.name}} ({{coffee.total_like}})</p>
-                    </div>
-                    <div class="card-body">
-                        <a href="#" onclick="likeCoffee('{{coffee.name}}')" class="card-link"> 좋아요! {{coffee.like}}
-                            <span class="icon">
-                                                    <i class="fas fa-thumbs-up"></i>
-                                                </span>
-                        </a>
-                        <a href="#" onclick="DislikeCoffee('{{coffee.name}}')" class="card-link"> 싫어요! {{coffee.dislike}}
-                            <span class="icon">
-                        <i class="fas fa-thumbs-down"></i>
-                    </span>
-                        </a>
                     </div>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
-    </section>
+</div>
+</section>
 </div>
 </body>
 </html>
