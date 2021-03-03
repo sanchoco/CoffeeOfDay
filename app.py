@@ -87,6 +87,7 @@ def comment_write():
     nickname = request.form["nickname"]
     product_id = int(product_id)
     time = datetime.today().strftime("%m/%d %H:%M")
+    print(time)
     doc = {
         "nickname": nickname,
         "product_id": int(product_id),
