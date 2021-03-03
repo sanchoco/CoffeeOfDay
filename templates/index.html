@@ -25,7 +25,8 @@
 
     <!-- import base.js -->
     <script src="../static/base.js"></script>
-
+    <link rel="stylesheet" href="../static/mystyle.css">
+    <!--
     <style>
         * { /*border: 1px solid black;*/
         }
@@ -111,7 +112,7 @@
         }
 
     </style>
-
+    -->
 
     <!--</head>-->
 <body>
@@ -126,24 +127,36 @@
                     오늘의 커피
                 </h1>
                 <h2 class="subtitle white">
-                    맛있는 커피를 추천해드립니다.
+                    가장 맛있는 스타벅스 커피를 추천해드립니다.
                 </h2>
             </div>
         </div>
     </section>
     <div class="columns is-mobile is-multiline is-centered" id="coffee">
-        {% for coffee in coffees%}
-        <div class="columns is-mobile is-multiline is-centered">
-            <div class="col-sm-6">
-                <div class="card">
-                    <a href="/detail/{{coffee.product_id}}"><img src="{{coffee.img_url}}" class="card-img-top"></a>
-                    <div class="card-body">
-                        <p class="card-text" id="coffee_name">{{coffee.name}} ({{coffee.total_like}})</p>
+        {% for coffee in coffees %}
+        <div class="card" style="cursor:pointer" onclick="window.location.href='/detail/{{ coffee.product_id }}' ">
+            <div class="card-image">
+                <figure class="image is-1by1">
+                    <img src="{{ coffee.img_url }}" alt="Placeholder image">
+                </figure>
+            </div>
+
+            <div class="card-content">
+                <div class="media ">
+                    <div class="media-content">
+                        <p class="card-title">{{ loop.index }}등</p>
+                        <p class="card-coffee">{{ coffee.name }}</p>
+                        <p class="card-like">
+                            <span style="color: dodgerblue">좋아요 {{ coffee.like }}개</span>
+                            <span style="color: darkgrey"> | </span>
+                            <span style="color: indianred">싫어요 {{ coffee.dislike }}개</span>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
         {% endfor %}
+
     </div>
 </div>
 </section>
