@@ -55,7 +55,7 @@
     </section>
     <div class="columns is-mobile is-multiline is-centered" id="coffee">
         {% for coffee in coffees %}
-        <div class="card" style="cursor:pointer" onclick="window.location.href='/detail/{{ coffee.product_id }}' ">
+        <div class="card" style="cursor:pointer" onclick="window.location.href='/detail/{{ coffee.product_id }}'">
             <div class="card-image">
                 <figure class="image is-1by1">
                     <img src="{{ coffee.img_url }}" alt="Placeholder image">

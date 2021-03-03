@@ -1,4 +1,3 @@
-
 // 커피 좋아요
 function likeCoffee(name) {
     $.ajax({
@@ -24,20 +23,23 @@ function DislikeCoffee(name) {
         }
     })
 }
+
 // 글쓰기
-function WriteComment(comment, number) {
+function WriteComment(comment, number, nickname) {
+    console.log(comment, number, nickname)
     $.ajax({
         type: 'POST',
         url: '/detail/write/',
-        data: {comment: comment, number:number},
+        data: {comment: comment, number: number, nickname: nickname},
         success: function (response) {
             alert(response['msg']);
         }
     })
 }
+
 // 로그아웃
 function deleteToken() {
-        $.removeCookie('mytoken', {path: '/'});
-        alert('로그아웃 완료!')
-        window.location.reload()
+    $.removeCookie('mytoken', {path: '/'});
+    alert('로그아웃 완료!')
+    window.location.reload()
 }

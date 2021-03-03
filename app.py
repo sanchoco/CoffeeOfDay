@@ -52,7 +52,8 @@ def register():
 def detail_image(number):
     number_received = int(number)
     detail_coffee = list(db.coffee_list.find({"product_id": number_received}, {'_id': False}))
-    comment_taken = list(db.comment.find({"product_id": number_received}, {"_id": False}).sort("comment_time",-1))
+    comment_taken = list(
+        db.comment.find({"product_id": number_received}, {"_id": False}).sort("comment_time", -1))
     product_id = detail_coffee[0]["product_id"]
     product_id = int(product_id)
     name = detail_coffee[0]["name"]
@@ -60,8 +61,9 @@ def detail_image(number):
     like = detail_coffee[0]["like"]
     dislike = detail_coffee[0]["dislike"]
     total_like = detail_coffee[0]["total_like"]
+
     detail_page = {'product_id': product_id, "name": name, "img_url": img_url, "like": like, "dislike": dislike,
-                   "total_like": total_like}
+                   "total_like": total_like,}
     # 토큰에 의한 처리
     token_receive = request.cookies.get('mytoken')
     if token_receive is None:
@@ -82,9 +84,13 @@ def detail_image(number):
 def comment_write():
     comment_received = request.form["comment"]
     product_id = request.form["number"]
+    nickname = request.form["nickname"]
+    print(nickname, type(nickname))
     product_id = int(product_id)
     time = datetime.now().time()
+    print(product_id, time, comment_received)
     doc = {
+        "nickname": nickname,
         "product_id": int(product_id),
         "comment": comment_received,
         "comment_time": str(time),
