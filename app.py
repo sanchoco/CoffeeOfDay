@@ -22,8 +22,19 @@ db = client.today_coffee
 
 @app.route('/')
 def home():
+    token_receive = request.cookies.get('mytoken')
     coffees = list(db.coffee_list.find({}, {'_id': False}))
-    return render_template('index.html', coffees=coffees)
+    # 토큰 확인
+    if token_receive is None:
+        return render_template('index.html', coffees=coffees, nickname="")
+    else:
+        try:
+            payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+            return render_template('index.html', coffees=coffees, nickname=payload['nickname'])  # 정상
+        except jwt.ExpiredSignatureError:  # 타임 아웃
+            return render_template('index.html', coffees=coffees, nickname="")
+        except jwt.exceptions.DecodeError:  # 토큰 비정상
+            return render_template('index.html', coffees=coffees, nickname="")
 
 
 @app.route('/login')
@@ -47,8 +58,26 @@ def detail_image(number):
     like = detail_coffee[0]["like"]
     dislike = detail_coffee[0]["dislike"]
     total_like = detail_coffee[0]["total_like"]
-    return render_template('detail.html', name=name, img_url=img_url, like=like, dislike=dislike, total_like=total_like,
-                           comment_taken=comment_taken)
+    # 토큰에 의한 처리
+    token_receive = request.cookies.get('mytoken')
+    print()
+    if token_receive is None:
+        return render_template('detail.html', name=name, img_url=img_url, like=like, dislike=dislike,
+                               comment_taken=comment_taken, nickname="")
+    else:
+        try:
+            payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+            return render_template('detail.html', name=name, img_url=img_url, like=like, dislike=dislike,
+                                   total_like=total_like,
+                                   comment_taken=comment_taken, nickname=payload['nickname'])  # 정상
+        except jwt.ExpiredSignatureError:  # 타임 아웃
+            return render_template('detail.html', name=name, img_url=img_url, like=like, dislike=dislike,
+                                   total_like=total_like,
+                                   comment_taken=comment_taken, nickname="")
+        except jwt.exceptions.DecodeError:  # 토큰 비정상
+            return render_template('detail.html', name=name, img_url=img_url, like=like, dislike=dislike,
+                                   total_like=total_like,
+                                   comment_taken=comment_taken, nickname="")
 
 
 # 코멘트 받아서 db에 저장하기
@@ -87,9 +116,8 @@ def sign_in():
     password_receive = request.form['password_give']
 
     pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
-    result = db.users.find_one({'username': username_receive, 'password': pw_hash })
+    result = db.users.find_one({'username': username_receive, 'password': pw_hash})
     print(result)
-
 
     if result is not None:
         payload = {
@@ -97,7 +125,7 @@ def sign_in():
             'nickname': result['nickname'],
             'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')  # .decode('utf-8')
 
         return jsonify({'result': 'success', 'token': token})
     # 찾지 못하면

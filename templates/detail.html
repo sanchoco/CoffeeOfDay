@@ -13,6 +13,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
     <meta property="og:title" content="오늘의 커피"/>
     <meta property="og:description" content="이용자들이 추천한 커피를 보여드립니다!"/>
@@ -33,7 +36,11 @@
 <div class="wrap">
     <section class="hero is-bold is-medium">
         <div class="buttons are-midium login">
-            <button class="button is-outlined is-light" onclick="window.location.href='/login'">로그인</button>
+            {% if (nickname == "") %}
+                <button class="button is-outlined is-light" onclick="window.location.href='/login'">로그인</button>
+            {% else %}
+                <button class="button is-outlined is-light" onclick="deleteToken()">로그아웃</button>
+            {% endif %}
         </div>
         <div class="hero-body">
             <div class="container">
@@ -49,27 +56,27 @@
 
     <div class="container" style="margin-top: 30px; padding: 10px">
 
-        <img src="{{img_url}}">
+        <img src="{{ img_url }}">
         <div>
-            <h1 class="title">{{name}}</h1>
+            <h1 class="title">{{ name }} </h1>
         </div>
 
         <div class="like_dislike">
             <div class="field has-addons">
                 <p class="control">
-                    <button class="button" onclick="likeCoffee('{{name}}')">
+                    <button class="button" onclick="likeCoffee('{{ name }}')">
                         <span>좋아요 👍</span>
                     </button>
                 </p>
                 <p class="control">
                     <button class="button" style="background-color: skyblue; cursor: default">
-                        <span>{{like}}</span>
+                        <span>{{ like }}</span>
                     </button>
                 </p>
             </div>
             <div class="field has-addons">
                 <p class="control">
-                    <button class="button" onclick="DislikeCoffee('{{name}}')">
+                    <button class="button" onclick="DislikeCoffee('{{ name }}')">
 
                         <span>싫어요 👎</span>
                     </button>
@@ -77,7 +84,7 @@
                 <p class="control">
                     <button class="button" style="background-color: lightpink;  cursor: default">
 
-                        <span>{{dislike}}</span>
+                        <span>{{ dislike }}</span>
                     </button>
                 </p>
             </div>
@@ -92,27 +99,28 @@
             </thead>
             <tbody>
             {% for comment in comment_taken %}
-            <tr>
-                <td>홍길동</td>
-                <td>{{comment.comment}}</td>
-            </tr>
+                <tr>
+                    <td>홍길동</td>
+                    <td>{{ comment.comment }}</td>
+                </tr>
             {% endfor %}
             </tbody>
         </table>
-
+        {{ nickname }}
+        {% if (nickname != "") %} <!-- 로그인 되어 있을 경우만 출력 -->
         <div class="container" style="margin-top: 30px;">
             <form action="" method="post">
-            <input class="input" type="text" id="comment-box" placeholder="댓글을 입력하세요.">
+                <input class="input" type="text" id="comment-box" placeholder="댓글을 입력하세요.">
 
-            <div class="buttons">
-                <button type="submit" class="button is-primary is-light" style="margin-top: 20px;"
-                onclick="WriteComment(document.getElementById('comment-box').value)">
-                    작성
-                </button>
-            </div>
+                <div class="buttons">
+                    <button type="submit" class="button is-primary is-light" style="margin-top: 20px;"
+                            onclick="WriteComment(document.getElementById('comment-box').value)">
+                        작성
+                    </button>
+                </div>
             </form>
         </div>
-
+        {% endif %}
 
     </div>
 

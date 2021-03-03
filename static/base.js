@@ -1,5 +1,5 @@
-<!-- 커피 좋아요 -->
 
+// 커피 좋아요
 function likeCoffee(name) {
     $.ajax({
         type: 'POST',
@@ -12,8 +12,7 @@ function likeCoffee(name) {
     })
 }
 
-<!-- 커피 싫어요 -->
-
+//커피 싫어요
 function DislikeCoffee(name) {
     $.ajax({
         type: 'POST',
@@ -25,7 +24,7 @@ function DislikeCoffee(name) {
         }
     })
 }
-<!-- 글쓰기 -->
+// 글쓰기
 function WriteComment(comment) {
     $.ajax({
         type: 'POST',
@@ -36,4 +35,10 @@ function WriteComment(comment) {
             window.location.reload()
         }
     })
+}
+// 로그아웃
+function deleteToken() {
+        $.removeCookie('mytoken', {path: '/'});
+        alert('로그아웃 완료!')
+        window.location.reload()
 }

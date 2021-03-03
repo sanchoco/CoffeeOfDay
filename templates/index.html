@@ -26,17 +26,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Gaegu&family=Hi+Melody&display=swap" rel="stylesheet">
 
     <!-- import base.js -->
-    <script src="../static/base.js"></script>
+    <script src="/static/base.js"></script>
 
 {#   <style> #}
-    <link rel="stylesheet" href="../static/mystyle.css">
+    <link rel="stylesheet" href="/static/mystyle.css">
 
     <!--</head>-->
 <body>
 <div class="wrap">
     <section class="hero is-bold is-medium">
         <div class="buttons are-midium login">
+            {% if (nickname == "") %}
             <button class="button is-outlined is-light" onclick="window.location.href='/login'">로그인</button>
+            {% else %}
+            <button class="button is-outlined is-light" onclick="deleteToken()">로그아웃</button>
+            {% endif %}
         </div>
         <div class="hero-body">
             <div class="container">
