@@ -1,118 +1,96 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <title>{{ detail_page.name }} | 오늘의 커피</title>
+{# 부모 템플렛 정보 가져오기 #}
+{% extends 'base.html' %}
+{# 타이틀 넘김 #}
+{% block title %} {{ detail_page.name }} | 오늘의 커피 {% endblock %}
+{# 타일틀 넘김 끝 #}
+{# 헤더 정보 넘김 #}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{# 헤더 정보 넘김 끝 #}
+{# 바디 정보 넘김 #}
+{% block content %}
+    <div class="wrap">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script type="text/javascript"
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-
-    <meta property="og:title" content="오늘의 커피"/>
-    <meta property="og:description" content="가장 맛있는 스타벅스 메뉴를 추천해드립니다."/>
-
-    <script src="../static/base.js"></script>
-
-    <!--    font-->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Gaegu&family=Hi+Melody&display=swap" rel="stylesheet">
-
-    <!--    style-->
-    <link rel="stylesheet" href="../static/mystyle.css">
-
-    <!--</head>-->
-<body>
-
-
-<div class="wrap">
-    <section class="hero is-bold is-medium">
-        <div class="buttons are-midium login">
-            {% if (nickname == "") %}
-                <button class="button is-outlined is-light" onclick="window.location.href='/login'">로그인</button>
-            {% else %}
-                <button class="button is-outlined is-light" onclick="deleteToken()">로그아웃</button>
-            {% endif %}
-        </div>
-        <div class="hero-body">
-            <div class="container">
-                <h1 class="title white main-title" onclick="window.location.href='/'" style="cursor:pointer">
-                    오늘의 커피
-                </h1>
-                <h2 class="subtitle white">
-                    가장 맛있는 스타벅스 메뉴를 추천해드립니다.
-                </h2>
+        {# banner #}
+        <section class="hero is-bold is-medium">
+            <div class="buttons are-midium login">
+                {% if (nickname == "") %}
+                    <button class="button is-outlined is-light" onclick="window.location.href='/login'">로그인</button>
+                {% else %}
+                    <button class="button is-outlined is-light" onclick="deleteToken()">로그아웃</button>
+                {% endif %}
             </div>
-        </div>
-    </section>
-
-    <div class="container" style="margin-top: 30px; padding: 10px">
-
-        <img src="{{ detail_page.img_url }}">
-        <div>
-            <h1 class="title">{{ detail_page.name }} </h1>
-        </div>
-
-        <div class="like_dislike">
-            <div class="field has-addons">
-                <p class="control">
-                    <button class="button" onclick="likeCoffee('{{ detail_page.name }}')">
-                        <span>좋아요 👍</span>
-                    </button>
-                </p>
-                <p class="control">
-                    <button class="button" style="background-color: skyblue; cursor: default">
-                        <span>{{ detail_page.like }}</span>
-                    </button>
-                </p>
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title white main-title" onclick="window.location.href='/'" style="cursor:pointer">
+                        오늘의 커피
+                    </h1>
+                    <h2 class="subtitle white">
+                        가장 맛있는 스타벅스 메뉴를 추천해드립니다.
+                    </h2>
+                </div>
             </div>
-            <div class="field has-addons">
-                <p class="control">
-                    <button class="button" onclick="DislikeCoffee('{{ detail_page.name }}')">
+        </section>
 
-                        <span>싫어요 👎</span>
-                    </button>
-                </p>
-                <p class="control">
-                    <button class="button" style="background-color: lightpink;  cursor: default">
-
-                        <span>{{ detail_page.dislike }}</span>
-                    </button>
-                </p>
+        {# 커피 이미지 #}
+        <div class="container" style="margin-top: 30px; padding: 10px">
+            <img src="{{ detail_page.img_url }}">
+            <div>
+                <h1 class="title">{{ detail_page.name }} </h1>
             </div>
-        </div>
+            <div class="like_dislike">
+                <div class="field has-addons">
+                    <p class="control">
+                        <button class="button" onclick="likeCoffee('{{ detail_page.name }}')">
+                            <span>좋아요 👍</span>
+                        </button>
+                    </p>
+                    <p class="control">
+                        <button class="button" style="background-color: skyblue; cursor: default">
+                            <span>{{ detail_page.like }}</span>
+                        </button>
+                    </p>
+                </div>
+                <div class="field has-addons">
+                    <p class="control">
+                        <button class="button" onclick="DislikeCoffee('{{ detail_page.name }}')">
+                            <span>싫어요 👎</span>
+                        </button>
+                    </p>
+                    <p class="control">
+                        <button class="button" style="background-color: lightpink;  cursor: default">
+                            <span>{{ detail_page.dislike }}</span>
+                        </button>
+                    </p>
+                </div>
+            </div>
 
-        <table style="margin-top: 30px;width: 100%;" class="table is-narrow">
-            <thead>
-            <tr>
-                <th style="width: 15%"><b style="font-size: 20px">댓글</b></th>
-                <th style="width: 65%;"></th>
-                <th style="width: 20%; text-align: right;"></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for comment in comment_taken %}
+            {# comment #}
+            <table style="margin-top: 30px;width: 100%;" class="table is-narrow">
+                <thead>
                 <tr>
-                    <td style="width: fit-content;">{{ comment.nickname }}</td>
-                    <td>{{ comment.comment }} </td>
-                    <td style="text-align: right;">{{ comment.comment_time }}</td>
+                    <th style="width: 15%"><b style="font-size: 20px">댓글</b></th>
+                    <th style="width: 65%;"></th>
+                    <th style="width: 20%; text-align: right;"></th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {% for comment in comment_taken %}
+                    <tr>
+                        <td style="width: fit-content;">{{ comment.nickname }}</td>
+                        <td>{{ comment.comment }} </td>
+                        <td style="text-align: right;">{{ comment.comment_time }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
 
-        {% if (nickname != "") %} <!-- 로그인 되어 있을 경우만 출력 -->
-
-            <div class="container" style="margin-top: 30px;">
-                <p class="subtitle">{{ nickname }}님의 댓글: </p>
+            {% if (nickname != "") %} <!-- 로그인 되어 있을 경우만 출력 -->
+                <div class="container" style="margin-top: 30px;">
+                    <p class="subtitle">{{ nickname }}님의 댓글: </p>
                     <input class="input" type="text" id="comment-box" placeholder="댓글을 입력하세요.">
 
                     <div class="buttons">
@@ -121,13 +99,11 @@
                             작성
                         </button>
                     </div>
+                </div>
+            {% endif %}
 
-            </div>
-        {% endif %}
-
+        </div>
     </div>
-</div>
-</body>
-</html>
+{% endblock %}
 
 

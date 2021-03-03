@@ -1,87 +1,67 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <title>메인 | 오늘의 커피</title>
+{# 부모 템플렛 정보 가져오기 #}
+{% extends 'base.html' %}
+{# 타이틀 넘김 #}
+{% block title %} 메인 | 오늘의 커피 {% endblock %}
+{# 타일틀 넘김 끝 #}
+{# 헤더 정보 넘김 #}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{# 헤더 정보 넘김 끝 #}
+{# 바디 정보 넘김 #}
+{% block content %}
+    <div class="wrap">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"
-            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-
-    <meta property="og:title" content="오늘의 커피"/>
-    <meta property="og:description" content="가장 맛있는 스타벅스 메뉴를 추천해드립니다."/>
-
-    <!--    font-->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Gaegu&family=Hi+Melody&display=swap" rel="stylesheet">
-
-    <!-- import base.js -->
-    <script src="/static/base.js"></script>
-
-{#   <style> #}
-    <link rel="stylesheet" href="/static/mystyle.css">
-
-    <!--</head>-->
-<body>
-<div class="wrap">
-    <section class="hero is-bold is-medium">
-        <div class="buttons are-midium login">
-            {% if (nickname == "") %}
-            <button class="button is-outlined is-light" onclick="window.location.href='/login'">로그인</button>
-            {% else %}
-            <button class="button is-outlined is-light" onclick="deleteToken()">로그아웃</button>
-            {% endif %}
-        </div>
-        <div class="hero-body">
-            <div class="container">
-                <h1 class="title white main-title" onclick="window.location.href='/'" style="cursor:pointer">
-                    오늘의 커피
-                </h1>
-                <h2 class="subtitle white">
-                    가장 맛있는 스타벅스 메뉴를 추천해드립니다.
-                </h2>
+        {# banner #}
+        <section class="hero is-bold is-medium">
+            <div class="buttons are-midium login">
+                {% if (nickname == "") %}
+                    <button class="button is-outlined is-light" onclick="window.location.href='/login'">로그인</button>
+                {% else %}
+                    <button class="button is-outlined is-light" onclick="deleteToken()">로그아웃</button>
+                {% endif %}
             </div>
-        </div>
-    </section>
-    <div class="columns is-mobile is-multiline is-centered" id="coffee">
-        {% for coffee in coffees %}
-        <div class="card" style="cursor:pointer" onclick="window.location.href='/detail/{{ coffee.product_id }}'">
-            <div class="card-image">
-                <figure class="image is-1by1">
-                    <img src="{{ coffee.img_url }}" alt="Placeholder image">
-                </figure>
-            </div>
-            <div class="card-content">
-                <div class="media ">
-                    <div class="media-content">
-                        <p class="card-title">{{ loop.index }}등</p>
-                        <p class="card-coffee">{{ coffee.name }}</p>
-                        <p class="card-like">
-                            <span style="color: dodgerblue">좋아요 {{ coffee.like }}개</span>
-                            <span style="color: darkgrey"> | </span>
-                            <span style="color: indianred">싫어요 {{ coffee.dislike }}개</span>
-                        </p>
-                    </div>
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title white main-title" onclick="window.location.href='/'" style="cursor:pointer">
+                        오늘의 커피
+                    </h1>
+                    <h2 class="subtitle white">
+                        가장 맛있는 스타벅스 메뉴를 추천해드립니다.
+                    </h2>
                 </div>
             </div>
+        </section>
+
+        {# coffee image start #}
+        <div class="columns is-mobile is-multiline is-centered" id="coffee">
+            {% for coffee in coffees %}
+                <div class="card" style="cursor:pointer"
+                     onclick="window.location.href='/detail/{{ coffee.product_id }}'">
+                    <div class="card-image">
+                        <figure class="image is-1by1">
+                            <img src="{{ coffee.img_url }}" alt="Placeholder image">
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <div class="media ">
+                            <div class="media-content">
+                                <p class="card-title">{{ loop.index }}등</p>
+                                <p class="card-coffee">{{ coffee.name }}</p>
+                                <p class="card-like">
+                                    <span style="color: dodgerblue">좋아요 {{ coffee.like }}개</span>
+                                    <span style="color: darkgrey"> | </span>
+                                    <span style="color: indianred">싫어요 {{ coffee.dislike }}개</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-
     </div>
-</div>
-</section>
-</div>
-</body>
-</html>
-
+    </section>
+    </div>
+{% endblock %}
+{# 바디 정보 끝 #}
 
