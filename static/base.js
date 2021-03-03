@@ -26,15 +26,31 @@ function DislikeCoffee(name) {
 
 // 글쓰기
 function WriteComment(comment, number, nickname) {
-    console.log(comment, number, nickname)
+    if (comment=='') {
+        alert("내용을 입력해주세요.")
+        window.location.reload()
+        return
+    } else if (!number || number== '' || !nickname || nickname == '') {
+        alert("문제가 발생하였습니다. 다시 시도해주세요.")
+        window.location.reload()
+        return
+    }
     $.ajax({
-        type: 'POST',
-        url: '/api/write',
-        data: {comment: comment, number: number, nickname: nickname},
-        success: function (response) {
-            alert(response['msg']);
-            window.location.reload()
-        }
+            type: 'POST',
+            url: '/api/write',
+            data: {comment: comment, number: number, nickname: nickname},
+            success:function (response) {
+                if (response['msg'] == 'error'){
+                    alert("에러가 발생하였습니다. 다시 시도해주세요.")
+                } else {
+                    alert(response['msg'])
+                }
+                window.location.reload()
+            },
+            error:function (error){
+                alert("다시 시도해주세요.")
+                window.location.reload()
+            }
     })
 }
 

@@ -4,8 +4,8 @@
 
 .wrap {
     max-width: 1200px;
-    margin: auto;
-    margin-bottom: 30px;
+    min-width: 580px;
+    margin: auto auto 30px auto;
 }
 
 .hero {
@@ -84,3 +84,6 @@
     color: white;
 }
 
+.main-title {
+    width: fit-content;
+}
