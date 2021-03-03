@@ -52,7 +52,7 @@ def register():
 def detail_image(number):
     number_received = int(number)
     detail_coffee = list(db.coffee_list.find({"product_id": number_received}, {'_id': False}))
-    comment_taken = list(db.comment.find({"product_id": number_received}, {"_id": False}))
+    comment_taken = list(db.comment.find({"product_id": number_received}, {"_id": False}).sort("comment_time",-1))
     product_id = detail_coffee[0]["product_id"]
     product_id = int(product_id)
     name = detail_coffee[0]["name"]
@@ -60,38 +60,30 @@ def detail_image(number):
     like = detail_coffee[0]["like"]
     dislike = detail_coffee[0]["dislike"]
     total_like = detail_coffee[0]["total_like"]
+    detail_page = {'product_id': product_id, "name": name, "img_url": img_url, "like": like, "dislike": dislike,
+                   "total_like": total_like}
     # 토큰에 의한 처리
     token_receive = request.cookies.get('mytoken')
     if token_receive is None:
-        return render_template('detail.html', name=name, img_url=img_url, like=like, dislike=dislike,
-                               comment_taken=comment_taken, product_id=product_id, nickname="")
+        return render_template('detail.html', detail_page=detail_page, comment_taken=comment_taken, nickname="")
     else:
         try:
             payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-            return render_template('detail.html', name=name, img_url=img_url, like=like, dislike=dislike,
-                                   total_like=total_like,
-                                   comment_taken=comment_taken, product_id=product_id,
+            return render_template('detail.html', detail_page=detail_page, comment_taken=comment_taken,
                                    nickname=payload['nickname'])  # 정상
         except jwt.ExpiredSignatureError:  # 타임 아웃
-            return render_template('detail.html', name=name, img_url=img_url, like=like, dislike=dislike,
-                                   total_like=total_like,
-                                   comment_taken=comment_taken, product_id=product_id, nickname="")
+            return render_template('detail.html', detail_page=detail_page, comment_taken=comment_taken, nickname="")
         except jwt.exceptions.DecodeError:  # 토큰 비정상
-            return render_template('detail.html', name=name, img_url=img_url, like=like, dislike=dislike,
-                                   total_like=total_like,
-                                   comment_taken=comment_taken, product_id=product_id, nickname="")
+            return render_template('detail.html', detail_page=detail_page, comment_taken=comment_taken, nickname="")
 
 
 # 코멘트 받아서 db에 저장하기 (강제 형변화 해야지 정보가 넘어감)
 @app.route('/detail/write/', methods=['POST'])
 def comment_write():
     comment_received = request.form["comment"]
-    print(comment_received)
     product_id = request.form["number"]
     product_id = int(product_id)
-    print(product_id)
     time = datetime.now().time()
-    print(time)
     doc = {
         "product_id": int(product_id),
         "comment": comment_received,

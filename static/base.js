@@ -26,14 +26,12 @@ function DislikeCoffee(name) {
 }
 // 글쓰기
 function WriteComment(comment, number) {
-    console.log(comment,number)
     $.ajax({
         type: 'POST',
         url: '/detail/write/',
         data: {comment: comment, number:number},
         success: function (response) {
             alert(response['msg']);
-            window.location.reload()
         }
     })
 }
