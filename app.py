@@ -1,8 +1,10 @@
-from flask import Flask, render_template, jsonify, request, redirect, url_for
 from pymongo import MongoClient
-import hashlib
-from datetime import datetime, timedelta
 import jwt
+import datetime
+import hashlib
+from flask import Flask, render_template, jsonify, request, redirect, url_for
+from werkzeug.utils import secure_filename
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -85,11 +87,14 @@ def sign_in():
     password_receive = request.form['password_give']
 
     pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
-    result = db.users.find_one({'username': username_receive, 'password': pw_hash})
+    result = db.users.find_one({'username': username_receive, 'password': pw_hash })
+    print(result)
+
 
     if result is not None:
         payload = {
             'id': username_receive,
+            'nickname': result['nickname'],
             'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
