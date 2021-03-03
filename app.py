@@ -109,23 +109,42 @@ def comment_write():
             return jsonify({'msg': 'error', 'number': product_id})
 
 
-
 # 커피 좋아요
 @app.route('/api/like', methods=['POST'])
 def like_coffee():
-    name_receive = request.form['name_give']
-    db.coffee_list.update_one({'name': name_receive}, {'$inc': {'like': +1}})
-    db.coffee_list.update_one({'name': name_receive}, {'$inc': {'total_like': +1}})
-    return jsonify({'msg': '좋아요 한표!'})
+    token_receive = request.cookies.get('mytoken')
+    if token_receive is None:
+        return jsonify({'msg': '로그인 하세요!'})
+    else:
+        try:
+            payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+            name_receive = request.form['name_give']
+            db.coffee_list.update_one({'name': name_receive}, {'$inc': {'like': +1}})
+            db.coffee_list.update_one({'name': name_receive}, {'$inc': {'total_like': +1}})
+            return jsonify({'msg': '좋아요 한표!'})  # 정상
+        except jwt.ExpiredSignatureError:
+            return jsonify({'msg': '로그인 하세요!'})
+        except jwt.exceptions.DecodeError:  # 토큰 비정상
+            return jsonify({'msg': '로그인 하세요!'})
 
 
 # 커피 싫어요
 @app.route('/api/dislike', methods=['POST'])
 def dislike_coffee():
-    name_receive = request.form["name_give"]
-    db.coffee_list.update_one({"name": name_receive}, {'$inc': {'dislike': +1}})
-    db.coffee_list.update_one({"name": name_receive}, {'$inc': {'total_like': -1}})
-    return jsonify({'msg': '싫어요 한표!'})
+    token_receive = request.cookies.get('mytoken')
+    if token_receive is None:
+        return jsonify({'msg': '로그인 하세요!'})
+    else:
+        try:
+            payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+            name_receive = request.form["name_give"]
+            db.coffee_list.update_one({"name": name_receive}, {'$inc': {'dislike': +1}})
+            db.coffee_list.update_one({"name": name_receive}, {'$inc': {'total_like': -1}})
+            return jsonify({'msg': '싫어요 한표!'})
+        except jwt.ExpiredSignatureError:
+            return jsonify({'msg': '로그인 하세요!'})
+        except jwt.exceptions.DecodeError:  # 토큰 비정상
+            return jsonify({'msg': '로그인 하세요!'})
 
 
 @app.route('/api/sign_in', methods=['POST'])
