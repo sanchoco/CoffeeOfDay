@@ -47,9 +47,9 @@ def register():
     return render_template('register.html')
 
 
-# 선택한 이미지 출력
+# 메뉴 페이지 출력
 @app.route('/detail/<number>', methods=['GET'])
-def detail_image(number):
+def detail_page(number):
     number_received = int(number)
     detail_coffee = list(db.coffee_list.find({"product_id": number_received}, {'_id': False}))
     comment_taken = list(
@@ -80,16 +80,13 @@ def detail_image(number):
 
 
 # 코멘트 받아서 db에 저장하기 (강제 형변화 해야지 정보가 넘어감)
-@app.route('/detail/<number>', methods=['POST'])
-def comment_write(number):
-    print("???")
+@app.route('/api/write', methods=['POST'])
+def comment_write():
     comment_received = request.form["comment"]
-    product_id = number
+    product_id = request.form["number"]
     nickname = request.form["nickname"]
-    print(product_id, comment_received, nickname)
     product_id = int(product_id)
     time = datetime.now().time()
-    print(product_id, time, comment_received)
     doc = {
         "nickname": nickname,
         "product_id": int(product_id),
@@ -118,7 +115,7 @@ def dislike_coffee():
     return jsonify({'msg': '싫어요 한표!'})
 
 
-@app.route('/sign_in', methods=['POST'])
+@app.route('/api/sign_in', methods=['POST'])
 def sign_in():
     # 로그인
     username_receive = request.form['username_give']
@@ -141,7 +138,7 @@ def sign_in():
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
 
-@app.route('/sign_up/save', methods=['POST'])
+@app.route('/api/sign_up', methods=['POST'])
 def sign_up():
     username_receive = request.form['username_give']
     password_receive = request.form['password_give']
@@ -156,18 +153,18 @@ def sign_up():
     return jsonify({'result': 'success'})
 
 
-@app.route('/sign_up/check_dup', methods=['POST'])
+@app.route('/api/check_dup', methods=['POST'])
 def check_dup():
     username_receive = request.form['username_give']
     exists = bool(db.users.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
 
-@app.route('/sign_up/check_nick', methods=['POST'])
+@app.route('/api/check_nick', methods=['POST'])
 def check_nick():
     nickname_receive = request.form['nickname_give']
     nickexists = bool(db.users.find_one({"nickname": nickname_receive}))
-    return jsonify({'result': 'success', 'exists': nickexists})
+    return jsonify({'result': 'success', 'nickexists': nickexists})
 
 
 if __name__ == '__main__':

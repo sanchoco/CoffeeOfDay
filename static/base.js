@@ -29,7 +29,7 @@ function WriteComment(comment, number, nickname) {
     console.log(comment, number, nickname)
     $.ajax({
         type: 'POST',
-        url: '/detail/'+number,
+        url: '/api/write',
         data: {comment: comment, number: number, nickname: nickname},
         success: function (response) {
             alert(response['msg']);
