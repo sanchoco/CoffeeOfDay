@@ -48,7 +48,7 @@ def register():
 
 
 # 선택한 이미지 출력
-@app.route('/detail/<number>', methods=['GET', 'POST'])
+@app.route('/detail/<number>', methods=['GET'])
 def detail_image(number):
     number_received = int(number)
     detail_coffee = list(db.coffee_list.find({"product_id": number_received}, {'_id': False}))
@@ -63,7 +63,7 @@ def detail_image(number):
     total_like = detail_coffee[0]["total_like"]
 
     detail_page = {'product_id': product_id, "name": name, "img_url": img_url, "like": like, "dislike": dislike,
-                   "total_like": total_like,}
+                   "total_like": total_like, }
     # 토큰에 의한 처리
     token_receive = request.cookies.get('mytoken')
     if token_receive is None:
@@ -80,12 +80,13 @@ def detail_image(number):
 
 
 # 코멘트 받아서 db에 저장하기 (강제 형변화 해야지 정보가 넘어감)
-@app.route('/detail/write/', methods=['POST'])
-def comment_write():
+@app.route('/detail/<number>', methods=['POST'])
+def comment_write(number):
+    print("???")
     comment_received = request.form["comment"]
-    product_id = request.form["number"]
+    product_id = number
     nickname = request.form["nickname"]
-    print(nickname, type(nickname))
+    print(product_id, comment_received, nickname)
     product_id = int(product_id)
     time = datetime.now().time()
     print(product_id, time, comment_received)
@@ -96,7 +97,7 @@ def comment_write():
         "comment_time": str(time),
     }
     db.comment.insert_one(doc)
-    return jsonify({'msg': "작성완료"})
+    return jsonify({'msg': '댓글 등록 완료!', 'number': product_id})
 
 
 # 커피 좋아요
@@ -125,7 +126,6 @@ def sign_in():
 
     pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
     result = db.users.find_one({'username': username_receive, 'password': pw_hash})
-    print(result)
 
     if result is not None:
         payload = {
