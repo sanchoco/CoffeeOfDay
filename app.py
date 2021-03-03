@@ -61,25 +61,24 @@ def detail_page(number):
     like = detail_coffee[0]["like"]
     dislike = detail_coffee[0]["dislike"]
     total_like = detail_coffee[0]["total_like"]
-
-    detail_page = {'product_id': product_id, "name": name, "img_url": img_url, "like": like, "dislike": dislike,
+    detail_data = {'product_id': product_id, "name": name, "img_url": img_url, "like": like, "dislike": dislike,
                    "total_like": total_like, }
     # 토큰에 의한 처리
     token_receive = request.cookies.get('mytoken')
     if token_receive is None:
-        return render_template('detail.html', detail_page=detail_page, comment_taken=comment_taken, nickname="")
+        return render_template('detail.html', detail_page=detail_data, comment_taken=comment_taken, nickname="")
     else:
         try:
             payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-            return render_template('detail.html', detail_page=detail_page, comment_taken=comment_taken,
+            return render_template('detail.html', detail_page=detail_data, comment_taken=comment_taken,
                                    nickname=payload['nickname'])  # 정상
         except jwt.ExpiredSignatureError:  # 타임 아웃
-            return render_template('detail.html', detail_page=detail_page, comment_taken=comment_taken, nickname="")
+            return render_template('detail.html', detail_page=detail_data, comment_taken=comment_taken, nickname="")
         except jwt.exceptions.DecodeError:  # 토큰 비정상
-            return render_template('detail.html', detail_page=detail_page, comment_taken=comment_taken, nickname="")
+            return render_template('detail.html', detail_page=detail_data, comment_taken=comment_taken, nickname="")
 
 
-# 코멘트 받아서 db에 저장하기 (강제 형변화 해야지 정보가 넘어감)
+# 코멘트 저장
 @app.route('/api/write', methods=['POST'])
 def comment_write():
     comment_received = request.form["comment"]
@@ -87,7 +86,6 @@ def comment_write():
     nickname = request.form["nickname"]
     product_id = int(product_id)
     time = datetime.today().strftime("%m/%d %H:%M")
-    print(time)
     doc = {
         "nickname": nickname,
         "product_id": int(product_id),
