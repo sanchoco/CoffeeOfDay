@@ -83,21 +83,31 @@ def detail_page(number):
 def comment_write():
     comment_received = request.form["comment"]
     product_id = request.form["number"]
-    nickname = request.form["nickname"]
-    print(product_id, nickname)
-    if (not product_id) or (not nickname) or (product_id == '') or (nickname == ''):
-        return jsonify({'msg': 'error'})
+    token_receive = request.cookies.get('mytoken')
+    if token_receive is None:
+        return jsonify({'msg': 'error', 'number': product_id})
     else:
-        product_id = int(product_id)
-        time = datetime.today().strftime("%m/%d %H:%M")
-        doc = {
-            "nickname": nickname,
-            "product_id": int(product_id),
-            "comment": comment_received,
-            "comment_time": str(time),
-        }
-        db.comment.insert_one(doc)
-        return jsonify({'msg': '댓글 등록 완료!', 'number': product_id})
+        try:
+            payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+            nickname = payload['nickname']
+            if (not product_id) or (not nickname) or (product_id == '') or (nickname == ''):
+                return jsonify({'msg': 'error', 'number': product_id})
+            else:
+                product_id = int(product_id)
+                time = datetime.today().strftime("%m/%d %H:%M")
+                doc = {
+                    "nickname": nickname,
+                    "product_id": int(product_id),
+                    "comment": comment_received,
+                    "comment_time": str(time),
+                }
+                db.comment.insert_one(doc)
+                return jsonify({'msg': '댓글 등록 완료!', 'number': product_id})
+        except jwt.ExpiredSignatureError:  # 타임 아웃
+            return jsonify({'msg': 'error', 'number': product_id})
+        except jwt.exceptions.DecodeError:  # 토큰 비정상
+            return jsonify({'msg': 'error', 'number': product_id})
+
 
 
 # 커피 좋아요
