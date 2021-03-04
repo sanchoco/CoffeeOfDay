@@ -9,7 +9,7 @@
 - 로그인하여 커피에 대한 의견을 남길 수 있으며 다른 사람이 남긴 리뷰도 확인 할 수 있습니다.
 
 ### 데모 영상
-https://youtu.be/FVRb_ukFViM?t=0s
+https://youtu.be/FVRb_ukFViM
 
 ### 사용 기술
 Python, Flask, MongoDB, JWT, JS
