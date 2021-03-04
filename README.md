@@ -10,7 +10,6 @@
 
 ### 데모 영상
 https://youtu.be/FVRb_ukFViM?t=0s
-[![예제](http://img.youtube.com/vi/FVRb_ukFViM/0.jpg)](https://youtu.be/FVRb_ukFViM?t=0s) 
 
 ### 사용 기술
 Python, Flask, MongoDB, JWT, JS
