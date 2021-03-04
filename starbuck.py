@@ -1,12 +1,12 @@
-from selenium import webdriver
-from bs4 import BeautifulSoup
 import time
 import re
+import setting_info
+from selenium import webdriver
+from bs4 import BeautifulSoup
 from webdriver_manager.chrome import ChromeDriverManager
-from pymongo import MongoClient
 
-client = MongoClient('3.34.130.144', 27017, username="test", password="test")
-db = client.dbcoffee
+
+db = setting_info.db_connect()
 
 driver = webdriver.Chrome(ChromeDriverManager().install())
 driver.get('https://www.starbucks.co.kr/menu/drink_list.do')
