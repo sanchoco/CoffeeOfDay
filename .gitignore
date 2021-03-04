@@ -1,4 +1,5 @@
 # IDE
+.idea
 
 # sercurity
 setting_info.py
@@ -6,5 +7,8 @@ setting_info.py
 # Mac
 .DS_Store
 
-#cache
+# python
+venv/
 __pycache__
+
+
