@@ -15,5 +15,5 @@
 https://youtu.be/FVRb_ukFViM
 
 ### 사용한 것
-AWS EC2, Python, Flask, MongoDB, JWT, JS
+Python, Flask, MongoDB, JWT, JS
 
