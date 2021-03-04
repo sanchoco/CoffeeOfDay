@@ -8,14 +8,12 @@
 - 로그인하여 좋아하는 커피에 '좋아요'를 눌러 상단으로 올릴 수 있으며 반대로 '싫어요'로 내릴 수 있습니다.
 - 로그인하여 커피에 대한 의견을 남길 수 있으며 다른 사람이 남긴 리뷰도 확인 할 수 있습니다.
 
+### 구현 화면
+![demo](https://user-images.githubusercontent.com/58046372/109933483-ce5abf80-7d0e-11eb-9b54-3ffc4c5f596c.gif)
+
 ### 데모 영상
 https://youtu.be/FVRb_ukFViM
 
 ### 사용 기술
 Python, Flask, MongoDB, JWT, JS
 
-### 메인 페이지
-![스크린샷 2021-03-04 오후 2 28 53](https://user-images.githubusercontent.com/58046372/109915914-04d81080-7cf6-11eb-94ff-dbc760226f79.png)
-
-### 상세 페이지
-![스크린샷 2021-03-04 오후 2 30 15](https://user-images.githubusercontent.com/58046372/109915986-2638fc80-7cf6-11eb-8d16-72fe8b5a4da0.png)
