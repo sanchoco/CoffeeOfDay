@@ -1,23 +1,16 @@
-from pymongo import MongoClient
 import jwt
 import datetime
 import hashlib
-from flask import Flask, render_template, jsonify, request, redirect, url_for
-from werkzeug.utils import secure_filename
+import setting_info
+from flask import Flask, render_template, jsonify, request
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 
-SECRET_KEY = 'COFFEE'
-
-client = MongoClient('3.34.130.144', 27017, username="test", password="test")
-db = client.today_coffee
-
-
-# client = MongoClient("localhost", 27017)
-# db = client.coffeeranking
+# db, 시크릿키 세팅
+SECRET_KEY = setting_info.secret_key()
+db = setting_info.db_connect()
 
 
 @app.route('/')
@@ -37,17 +30,19 @@ def home():
             return render_template('index.html', coffees=coffees, nickname="")
 
 
+# 로그인 폼
 @app.route('/login')
 def login():
     return render_template('login.html')
 
 
+# 회원가입 폼
 @app.route('/register')
 def register():
     return render_template('register.html')
 
 
-# 메뉴 페이지 출력
+# 상세 페이지 출력
 @app.route('/detail/<number>', methods=['GET'])
 def detail_page(number):
     number_received = int(number)
@@ -114,7 +109,7 @@ def comment_write():
 def like_coffee():
     token_receive = request.cookies.get('mytoken')
     if token_receive is None:
-        return jsonify({'msg': '로그인 하세요!'})
+        return jsonify({'msg': '로그인이 필요한 기능입니다!'})
     else:
         try:
             payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
@@ -123,9 +118,9 @@ def like_coffee():
             db.coffee_list.update_one({'name': name_receive}, {'$inc': {'total_like': +1}})
             return jsonify({'msg': '좋아요 한표!'})  # 정상
         except jwt.ExpiredSignatureError:
-            return jsonify({'msg': '로그인 하세요!'})
+            return jsonify({'msg': '로그인이 필요한 기능입니다!'})
         except jwt.exceptions.DecodeError:  # 토큰 비정상
-            return jsonify({'msg': '로그인 하세요!'})
+            return jsonify({'msg': '로그인이 필요한 기능입니다!'})
 
 
 # 커피 싫어요
@@ -133,7 +128,7 @@ def like_coffee():
 def dislike_coffee():
     token_receive = request.cookies.get('mytoken')
     if token_receive is None:
-        return jsonify({'msg': '로그인 하세요!'})
+        return jsonify({'msg': '로그인이 필요한 기능입니다!'})
     else:
         try:
             payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
@@ -142,14 +137,14 @@ def dislike_coffee():
             db.coffee_list.update_one({"name": name_receive}, {'$inc': {'total_like': -1}})
             return jsonify({'msg': '싫어요 한표!'})
         except jwt.ExpiredSignatureError:
-            return jsonify({'msg': '로그인 하세요!'})
+            return jsonify({'msg': '로그인이 필요한 기능입니다!'})
         except jwt.exceptions.DecodeError:  # 토큰 비정상
-            return jsonify({'msg': '로그인 하세요!'})
+            return jsonify({'msg': '로그인이 필요한 기능입니다!!'})
 
 
+# 로그인
 @app.route('/api/sign_in', methods=['POST'])
 def sign_in():
-    # 로그인
     username_receive = request.form['username_give']
     password_receive = request.form['password_give']
 
@@ -165,11 +160,11 @@ def sign_in():
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')  # .decode('utf-8')
 
         return jsonify({'result': 'success', 'token': token})
-    # 찾지 못하면
-    else:
+    else:  # 찾지 못하면
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
 
+# 로그인 기능
 @app.route('/api/sign_up', methods=['POST'])
 def sign_up():
     username_receive = request.form['username_give']
@@ -185,6 +180,7 @@ def sign_up():
     return jsonify({'result': 'success'})
 
 
+# 아이디 중복 체크
 @app.route('/api/check_dup', methods=['POST'])
 def check_dup():
     username_receive = request.form['username_give']
@@ -192,6 +188,7 @@ def check_dup():
     return jsonify({'result': 'success', 'exists': exists})
 
 
+# 닉네임 중복 체크
 @app.route('/api/check_nick', methods=['POST'])
 def check_nick():
     nickname_receive = request.form['nickname_give']

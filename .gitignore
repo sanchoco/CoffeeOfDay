@@ -1,9 +1,10 @@
 # IDE
 
 # sercurity
+setting_info.py
 
 # Mac
 .DS_Store
 
-#py
+#cache
 __pycache__
