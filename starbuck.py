@@ -30,5 +30,5 @@ for drink in drinks:
         "dislike": 0,
         "total_like":0,
     }
-    db.daycoffee.insert_one(doc)
+    db.coffee_list.insert_one(doc)
     print("completed", name)
