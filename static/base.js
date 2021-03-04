@@ -239,3 +239,20 @@ function check_dup() {
 function cancel() {
     window.location.href = "/login"
 }
+
+function filter(){
+
+        var value, name, card, i;
+
+        value = document.getElementById("value").value.toUpperCase();
+        card = document.getElementsByClassName("card");
+
+        for(i=0;i<card.length;i++){
+          name = card[i].getElementsByClassName("card-coffee");
+          if(name[0].innerHTML.toUpperCase().indexOf(value) > -1){
+            card[i].style.display = "block";
+          }else{
+            card[i].style.display = "none";
+          }
+        }
+      }

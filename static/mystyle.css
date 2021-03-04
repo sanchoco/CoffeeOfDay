@@ -87,3 +87,10 @@
 .main-title {
     width: 70%;
 }
+
+.search {
+    width: 92%;
+    margin: 30px auto 20px auto;
+    display: block;
+    text-indent: 15px;
+}
