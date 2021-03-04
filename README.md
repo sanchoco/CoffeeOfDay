@@ -14,6 +14,6 @@
 ### 데모 영상
 https://youtu.be/FVRb_ukFViM
 
-### 사용 기술
-Python, Flask, MongoDB, JWT, JS
+### 사용한 것
+AWS EC2, Python, Flask, MongoDB, JWT, JS
 
