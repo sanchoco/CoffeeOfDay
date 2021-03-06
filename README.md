@@ -14,6 +14,21 @@
 ### 데모 영상
 https://youtu.be/FVRb_ukFViM
 
-### 사용한 것
+### 사용 기술
 Python, Flask, MongoDB, JWT, JS
 
+
+### 기능(API 목록)
+
+| 기능 | Method | URL | request | response |
+| :- | - | :-: | -: | -: |
+| 홈 | GET | / |  | DB에 있는 커피 목록 출력 |
+| 로그인 | GET | /login | | 로그인 화면 출력 |
+|  | POST | /api/sign_in | ID, PW 전달 | 검증 후 JWT 토큰 생성, 홈으로 이동 |
+| 회원가입 | POST | /api/check_nick | 닉네임이 DB에 존재하는지 요청 | 중복 결과 반환(True, False) |
+|  | POST | /api/check_dup | ID가 DB에 존재하는지 요청 | 중복 결과 반환(True, False) |
+|  | POST | /api/sign_up | 사용자가 입력한 ID, PW, 닉네임 전달 | 유효성 검사 후 DB에 저장 |
+| 상세 페이지 | GET | /detail/<number> |  | 해당 메뉴의 이름, 이미지, 좋아요, 싫어요, 댓글 데이터 전달 |
+|  | POST | /api/write | 댓글 내용, 작성자, 제품id를 전달 | 토큰(로그인) 확인 후 DB에 저장 |
+|  | POST | /api/like | '좋아요'를 누른 커피id 서버에 전달 | 토큰(로그인) 확인 후 '좋아요' +1 |
+|  | POST | /api/dislike | '싫어요'를 누른 커피id 서버에 전달 | 토큰(로그인) 확인 후 '싫어요' +1 |
