@@ -1,6 +1,6 @@
 # 오늘의 커피
 
-스타벅스 메뉴 중 사람들이 가장 좋아하는 커피를 보여드립니다!
+>스타벅스 메뉴 중 사람들이 가장 좋아하는 커피를 보여드립니다!
 
 ![demo](https://user-images.githubusercontent.com/58046372/109933483-ce5abf80-7d0e-11eb-9b54-3ffc4c5f596c.gif)
 
